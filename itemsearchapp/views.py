@@ -10,3 +10,5 @@ def item_search(request):
     }
 
     return render(request, 'results.html', context)
+
+#def store_item(request):
