@@ -2,9 +2,11 @@
 
 {% block page_content %}
 <div class="topnav">
-    <form action="#" method="GET"></form>
-        <input type="text" name="useritem" placeholder="Search..">
-        <input type="submit" class="btn" value="Click" name="mybtn">
+    <form action="/searchitem" method="POST">
+        {% csrf_token %}
+        <input type="text" name="itemname" placeholder="Enter Name">
+        <input type="text" name="itemprice" placeholder="Enter Price">
+        <input type="submit" class="btn" value="Submit" name="mybtn">
     </form>
 </div>
 
