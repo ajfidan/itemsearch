@@ -4,8 +4,7 @@
 <div class="topnav">
     <form action="/searchitem" method="POST">
         {% csrf_token %}
-        <input type="text" name="itemname" placeholder="Enter Name">
-        <input type="text" name="itemprice" placeholder="Enter Price">
+        <input type="text" name="itemname" placeholder="What item would you like to search for?">
         <input type="submit" class="btn" value="Submit" name="mybtn">
     </form>
 </div>

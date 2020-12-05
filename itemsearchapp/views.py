@@ -2,6 +2,8 @@ from django.shortcuts import render
 from itemsearchapp.models import Item
 
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 
@@ -20,16 +22,11 @@ def item_search(request):
 def searchitem(request):
     if request.method == "POST":
         get_name = request.POST["itemname"]
-        get_price = request.POST["itemprice"]
 
+        data = getItemAmazon(get_name)
+        for key, value in data.items():
+            Item.objects.create(name=key, price=value)
 
-
-
-
-        Item.objects.create(name=get_name, price=get_price)
-
-    
-    
     item_obj = Item.objects.filter()
 
     context = {
@@ -50,11 +47,8 @@ def getItemAmazon(searchname):
         'Connection' : 'close'
     }
 
-    details = {
-        "name": "", "price": ""
-    }
-
-    driver = webdriver.Chrome(executable_path=r'\\resources\\chromedriver.exe')
+    driver = webdriver.Chrome(ChromeDriverManager().install())
+    #driver = webdriver.Chrome(executable_path=r'C:\Users\arman\Documents\Python Projects\item-search\resources\chromedriver.exe')
     driver.maximize_window()
     driver.get("https://www.amazon.ca")
     print(driver.title)
@@ -63,17 +57,24 @@ def getItemAmazon(searchname):
     search_bar.send_keys(searchname)
     search_bar.send_keys(Keys.RETURN)
 
-    name = ""
-    price = ""
+    data = dict()
+
     try:
         soup = BeautifulSoup(driver.page_source, 'lxml')
         for div in soup.select('div[data-asin]'):
             if searchname.lower() in div.select_one('.a-text-normal').text.lower():
                 itemName = div.select_one('.a-text-normal').text
-                if div.select_one('.a-price'):
+                if div.select_one('.a-price') is None:
+                    continue
                     price = div.select_one('.a-price ').get_text('|',strip=True).split('|')[0]
+                    data[itemName] = price
                     print(itemName)
-                    print(ConvertPrice(price))
-    except AttributeError:
-        pass
+                    print(price)
+    except AttributeError as e:
+        print(e)
     driver.close()
+    return data
+
+def ConvertPrice(price):
+    stripped_price = price.strip("CDN$ ,")
+    return float(stripped_price)
