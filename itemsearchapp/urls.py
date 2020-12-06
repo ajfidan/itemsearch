@@ -15,12 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from itemsearchapp.views import item_search
-from itemsearchapp.views import searchitem
+from itemsearchapp.views import home
+from itemsearchapp.views import amazonsearch
+from itemsearchapp.views import dbsearch
 from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('search/', views.item_search),
-    path('searchitem', views.searchitem),
+    path('', views.home),
+    path('amazonsearch/', views.amazonsearch),
+    path('dbsearch/', views.dbsearch),
 ]

@@ -7,34 +7,43 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 
-def index(request):
-    return HttpResponseRedirect('/admin/')
+def home(request):
+    return render(request, 'home.html')
 
-def item_search(request):
+def dbsearch(request):
     item_obj = Item.objects.filter()
 
     context = {
         "items": item_obj
     }
 
-    return render(request, 'results.html', context)
+    return render(request, 'dbresults.html', context)
 
-def searchitem(request):
+def amazonsearch(request):
     if request.method == "POST":
-        get_name = request.POST["itemname"]
-
+        get_name = request.POST["amazonitemname"]
+        status = "searching for " + get_name
         data = getItemAmazon(get_name)
         for key, value in data.items():
             Item.objects.create(name=key, price=value)
 
-    item_obj = Item.objects.filter()
+    context = {
+        "status": status
+    }
+
+    return render(request, 'amazonresults.html', context)
+
+def dbsearch(request):
+    if request.method == "POST":
+        get_name = request.POST["dbitemname"]
+
+    item_obj = Item.objects.filter(name__contains='hello')
 
     context = {
         "items": item_obj
     }
 
-    return render(request, 'results.html', context)
-
+    return render(request, 'amazonresults.html', context)
 
 def getItemAmazon(searchname):
 
@@ -48,7 +57,6 @@ def getItemAmazon(searchname):
     }
 
     driver = webdriver.Chrome(ChromeDriverManager().install())
-    #driver = webdriver.Chrome(executable_path=r'C:\Users\arman\Documents\Python Projects\item-search\resources\chromedriver.exe')
     driver.maximize_window()
     driver.get("https://www.amazon.ca")
     print(driver.title)
@@ -74,7 +82,7 @@ def getItemAmazon(searchname):
                     print(price)
         else:
             continue
-    #driver.close()
+    driver.close()
     return data
 
 def ConvertPrice(price):

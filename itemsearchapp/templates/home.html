@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+<div class="topnav">
+    <form action="amazonsearch/" method="POST">
+        {% csrf_token %}
+        <input type="text" name="amazonitemname" placeholder="Amazon Search">
+        <input type="submit" class="btn" value="Submit" name="mybtn">
+    </form>
+    <form action="dbsearch/" method="POST">
+        {% csrf_token %}
+        <input type="text" name="dbitemname" placeholder="Database Search">
+        <input type="submit" class="btn" value="Submit" name="mybtn">
+    </form>
+</div>
+
+
+{% endblock %}
