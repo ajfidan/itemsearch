@@ -59,20 +59,22 @@ def getItemAmazon(searchname):
 
     data = dict()
 
-    try:
-        soup = BeautifulSoup(driver.page_source, 'lxml')
-        for div in soup.select('div[data-asin]'):
+    soup = BeautifulSoup(driver.page_source, 'lxml')
+    for div in soup.select('div[data-asin]'):
+        if div.select_one('.a-text-normal') is not None:
+            print("1st IF")
             if searchname.lower() in div.select_one('.a-text-normal').text.lower():
+                print("2nd IF")
                 itemName = div.select_one('.a-text-normal').text
-                if div.select_one('.a-price') is None:
-                    continue
+                if div.select_one('.a-price') is not None:
+                    print("3rd IF")
                     price = div.select_one('.a-price ').get_text('|',strip=True).split('|')[0]
                     data[itemName] = price
                     print(itemName)
                     print(price)
-    except AttributeError as e:
-        print(e)
-    driver.close()
+        else:
+            continue
+    #driver.close()
     return data
 
 def ConvertPrice(price):
