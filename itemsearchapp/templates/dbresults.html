@@ -2,6 +2,10 @@
 
 {% block page_content %}
 
+<form action="/">
+    <input type="submit" value="go back" />
+</form>
+
 {% for i in items %}
 
     <div class="pa2 mb3 striped--near-white">
@@ -11,6 +15,8 @@
            <p class="mb2">Name: {{ i.name }}</p>
 
            <p class="mb2">Price: {{ i.price }}</p>
+
+           <p class="mb2">Created Date: {{ i.created }}</p>
 
         </div>
 

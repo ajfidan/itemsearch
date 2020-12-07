@@ -10,25 +10,18 @@ from bs4 import BeautifulSoup
 def home(request):
     return render(request, 'home.html')
 
-def dbsearch(request):
-    item_obj = Item.objects.filter()
-
-    context = {
-        "items": item_obj
-    }
-
-    return render(request, 'dbresults.html', context)
-
 def amazonsearch(request):
     if request.method == "POST":
         get_name = request.POST["amazonitemname"]
-        status = "searching for " + get_name
         data = getItemAmazon(get_name)
+        count = 0
         for key, value in data.items():
             Item.objects.create(name=key, price=value)
+            count += 1
 
     context = {
-        "status": status
+        "status": get_name,
+        "addedcount": count
     }
 
     return render(request, 'amazonresults.html', context)
@@ -37,13 +30,13 @@ def dbsearch(request):
     if request.method == "POST":
         get_name = request.POST["dbitemname"]
 
-    item_obj = Item.objects.filter(name__contains='hello')
+    item_obj = Item.objects.filter(name__icontains=get_name)
 
     context = {
         "items": item_obj
     }
 
-    return render(request, 'amazonresults.html', context)
+    return render(request, 'dbresults.html', context)
 
 def getItemAmazon(searchname):
 
@@ -84,7 +77,3 @@ def getItemAmazon(searchname):
             continue
     driver.close()
     return data
-
-def ConvertPrice(price):
-    stripped_price = price.strip("CDN$ ,")
-    return float(stripped_price)

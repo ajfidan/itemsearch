@@ -2,7 +2,19 @@
 
 {% block page_content %}
 
-{{status}}
+<form action="/">
+    <input type="submit" value="go back" />
+</form>
+
+<div class="pl2">
+
+    <p class="mb2">You searched for: {{status}}.</p>
+
+    <p class="mb2">{{addedcount}} items were found and added to the DB.</p>
+
+ </div>
+
+
 
 
 {% endblock %}
