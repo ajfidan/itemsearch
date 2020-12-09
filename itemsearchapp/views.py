@@ -7,6 +7,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 
+import pandas as pd
+
 def home(request):
     return render(request, 'home.html')
 
@@ -70,10 +72,17 @@ def getItemAmazon(searchname):
                 if div.select_one('.a-price') is not None:
                     print("3rd IF")
                     price = div.select_one('.a-price ').get_text('|',strip=True).split('|')[0]
-                    data[itemName] = price
+
+                    data[itemName] = convertprice(price)
                     print(itemName)
-                    print(price)
+                    print(convertprice(price))
         else:
             continue
     driver.close()
     return data
+
+def convertprice(price):
+    price = price.strip("CDN$")
+    price = price.lstrip()
+    price = price.rstrip(',')
+    return float(price)
