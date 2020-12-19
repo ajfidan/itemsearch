@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from itemsearchapp.models import Item
+from decimal import Decimal
 
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -85,4 +86,4 @@ def convertprice(price):
     price = price.strip("CDN$")
     price = price.lstrip()
     price = price.rstrip(',')
-    return float(price)
+    return Decimal(price)
