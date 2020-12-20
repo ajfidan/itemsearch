@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block page_content %}
-<div class="input-group">
+<div class="input-group justify-content-center">
     <form action="amazonsearch/" method="POST">
         {% csrf_token %}
         <input type="text" name="amazonitemname" placeholder="Amazon Search">

@@ -5,22 +5,24 @@
 <form action="/">
     <input type="submit" value="go back" />
 </form>
-
+<div class="row">
 {% for i in items %}
 
-    <div class="list-group d-flex">
 
+        <div class="col-md-3">
+            <div class="card" style="width: 20rem;">
+                <div class="card-header">
+                    {{ i.name }}
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Price: ${{ i.price }} CAD</p>
+                    <p class="card-text">{{ i.created }}</p>
+                </div>
+            </div>
+        </div>
 
-        <p>Name: {{ i.name }}</p>
-
-        <p>Price: {{ i.price }}</p>
-
-        <p>Created Date: {{ i.created }}</p>
-
-
-    </div>
 
 {% endfor %}
-
+</div>
 
 {% endblock %}
