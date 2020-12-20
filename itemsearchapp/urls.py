@@ -21,8 +21,8 @@ from itemsearchapp.views import dbsearch
 from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.home),
-    path('amazonsearch/', views.amazonsearch),
-    path('dbsearch/', views.dbsearch),
+    path('admin/', admin.site.urls, name="admin"),
+    path('', views.home, name='home'),
+    path('amazonsearch/', views.amazonsearch, name='amazonsearch'),
+    path('dbsearch/', views.dbsearch, name='dbsearch'),
 ]
