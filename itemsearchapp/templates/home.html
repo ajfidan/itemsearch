@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 
 {% block page_content %}
-<div class="topnav">
+<div class="input-group">
     <form action="amazonsearch/" method="POST">
         {% csrf_token %}
         <input type="text" name="amazonitemname" placeholder="Amazon Search">
         <input type="submit" class="btn" value="Submit" name="mybtn">
     </form>
+    <span class="input-group-addon"></span>
     <form action="dbsearch/" method="POST">
         {% csrf_token %}
         <input type="text" name="dbitemname" placeholder="Database Search">
