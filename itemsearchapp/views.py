@@ -18,7 +18,7 @@ def amazonsearch(request):
         get_name = request.POST["amazonitemname"]
         data = getItemAmazon(get_name)
         count = 0
-        for key, value in data.items():
+        for x in data:
             Item.objects.create(name=key, price=value)
             count += 1
 
@@ -61,7 +61,7 @@ def getItemAmazon(searchname):
     search_bar.send_keys(searchname)
     search_bar.send_keys(Keys.RETURN)
 
-    data = dict()
+    data = []
 
     soup = BeautifulSoup(driver.page_source, 'lxml')
     for div in soup.select('div[data-asin]'):
@@ -73,10 +73,15 @@ def getItemAmazon(searchname):
                 if div.select_one('.a-price') is not None:
                     print("3rd IF")
                     price = div.select_one('.a-price ').get_text('|',strip=True).split('|')[0]
+                    image = soup.find('img')
 
-                    data[itemName] = convertprice(price)
+                    data.insert(0, itemName)
+                    data.insert(1, convertprice(price))
+                    data.insert(2, image['src'])
+                    
                     print(itemName)
                     print(convertprice(price))
+                    print(image['src'])
         else:
             continue
     driver.close()
