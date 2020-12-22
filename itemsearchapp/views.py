@@ -18,8 +18,8 @@ def amazonsearch(request):
         get_name = request.POST["amazonitemname"]
         data = getItemAmazon(get_name)
         count = 0
-        for x in data:
-            Item.objects.create(name=key, price=value)
+        for key, value in data.items():
+            Item.objects.create(name=key, price=value[0], image_url=value[1])
             count += 1
 
     context = {
@@ -61,7 +61,7 @@ def getItemAmazon(searchname):
     search_bar.send_keys(searchname)
     search_bar.send_keys(Keys.RETURN)
 
-    data = []
+    data_dict = dict()
 
     soup = BeautifulSoup(driver.page_source, 'lxml')
     for div in soup.select('div[data-asin]'):
@@ -75,17 +75,19 @@ def getItemAmazon(searchname):
                     price = div.select_one('.a-price ').get_text('|',strip=True).split('|')[0]
                     image = soup.find('img')
 
-                    data.insert(0, itemName)
-                    data.insert(1, convertprice(price))
-                    data.insert(2, image['src'])
-                    
+                    data_list = []
+
+                    data_list.insert(0, convertprice(price))
+                    data_list.insert(1, image['src'])
+                    data_dict[itemName] = data_list
+
                     print(itemName)
                     print(convertprice(price))
                     print(image['src'])
         else:
             continue
     driver.close()
-    return data
+    return data_dict
 
 def convertprice(price):
     price = price.strip("CDN$")
