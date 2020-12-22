@@ -73,7 +73,7 @@ def getItemAmazon(searchname):
                 if div.select_one('.a-price') is not None:
                     print("3rd IF")
                     price = div.select_one('.a-price ').get_text('|',strip=True).split('|')[0]
-                    image = soup.find('img')
+                    image = div.find('img')
 
                     data_list = []
 

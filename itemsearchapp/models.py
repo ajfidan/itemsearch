@@ -10,6 +10,7 @@ class Item(models.Model):
 class AllEntity(models.Model):
     name = models.TextField()
     price = models.DecimalField(max_digits=30, decimal_places=2)
+    image_url = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
