@@ -26,4 +26,5 @@ urlpatterns = [
     path('amazonsearch/', views.amazonsearch, name='amazonsearch'),
     path('dbsearch/', views.dbsearch, name='dbsearch'),
     path('track/', views.track_item, name='track_item'),
+    path('price_history/', views.price_history, name='price_history')
 ]

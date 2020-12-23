@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+
+<form action="{% url 'price_history' %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="track_name" value="{{ i.name }}">
+    
+    <select name="post_categories" class="filter-selectbox">
+
+{% for i in items %}
+
+    <option value="{{ i.name }}"> {{ i.name }} </option>
+
+
+{% endfor %}
+
+    <input type="submit" class="btn" value="Submit" name="mybtn">
+</form>
+
+{% endblock %}

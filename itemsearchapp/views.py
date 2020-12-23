@@ -62,6 +62,15 @@ def track_item(request):
 
     return render(request, 'track.html', context)
 
+def price_history(request):
+    item_obj = Item.objects.filter(isTracked=True)
+
+    context = {
+        "items": item_obj
+    }
+
+    return render(request, 'pricehistory.html', context)
+
 def getItemAmazon(searchname):
 
     headers = { 
