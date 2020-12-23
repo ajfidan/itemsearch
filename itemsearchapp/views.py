@@ -41,6 +41,12 @@ def dbsearch(request):
 
     return render(request, 'dbresults.html', context)
 
+def track_item(request):
+    if request.method == "POST":
+        track_name = request.Post["track_name"]
+
+    Item.objects.filter(name=track_name).update(isTracked=True)
+
 def getItemAmazon(searchname):
 
     headers = { 
