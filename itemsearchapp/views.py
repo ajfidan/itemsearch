@@ -46,6 +46,14 @@ def track_item(request):
         track_name = request.Post["track_name"]
 
     Item.objects.filter(name=track_name).update(isTracked=True)
+    item_obj = Item.objects.filter(name_icontains=track_name)
+    
+    context = {
+        "items": item_obj,
+        "track_name": track_name
+    }
+
+    return render(request, 'dbresults.html', context)
 
 def getItemAmazon(searchname):
 

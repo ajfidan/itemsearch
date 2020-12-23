@@ -25,4 +25,5 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('amazonsearch/', views.amazonsearch, name='amazonsearch'),
     path('dbsearch/', views.dbsearch, name='dbsearch'),
+    path('track/', views.track_item, name='track_item'),
 ]
