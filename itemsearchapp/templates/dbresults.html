@@ -17,7 +17,11 @@
                 <div class="card-body">
                     <p class="card-text">Price: ${{ i.price }} CAD</p>
                     <p class="card-text">{{ i.created }}</p>
-                    <a href="{% url 'track_item' %}" class="btn btn-primary" name="name">Track Item</a>
+                    <form action="{% url 'track_item' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="track_name" value="{{ i.name }}">
+                        <input type="submit" class="btn" value="Submit" name="mybtn">
+                    </form>
                 </div>
             </div>
         </div>

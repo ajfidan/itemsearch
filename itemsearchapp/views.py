@@ -43,17 +43,24 @@ def dbsearch(request):
 
 def track_item(request):
     if request.method == "POST":
-        track_name = request.Post["track_name"]
+        track_name = request.POST["track_name"].strip()
 
-    Item.objects.filter(name=track_name).update(isTracked=True)
-    item_obj = Item.objects.filter(name_icontains=track_name)
+    print(track_name)
+    try:
+        item_obj = Item.objects.filter(name__icontains=track_name)
+        print(item_obj)
+        item_obj.update(isTracked=True)
+    except:
+        print("Didn't Work")
+    else:
+        print("It Worked")
     
     context = {
         "items": item_obj,
         "track_name": track_name
     }
 
-    return render(request, 'dbresults.html', context)
+    return render(request, 'track.html', context)
 
 def getItemAmazon(searchname):
 
