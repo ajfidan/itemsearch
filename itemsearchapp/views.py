@@ -9,6 +9,7 @@ from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 
 import pandas as pd
+import matplotlib.pyplot as plt
 
 def home(request):
     return render(request, 'home.html')
@@ -64,6 +65,13 @@ def track_item(request):
 
 def price_history(request):
     item_obj = Item.objects.filter(isTracked=True)
+    q = item_obj.values('name', 'created')
+    df = pd.DataFrame.from_records(q)
+
+    print(df.head())
+
+    df.plot(kind='scatter', x='created', y='name', color='red')
+    plt.show()
 
     context = {
         "items": item_obj
