@@ -10,6 +10,8 @@ from bs4 import BeautifulSoup
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import io
+import urllib, base64
 
 def home(request):
     return render(request, 'home.html')
