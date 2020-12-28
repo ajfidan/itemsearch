@@ -2,22 +2,28 @@
 
 {% block page_content %}
 
-<form action="{% url 'price_history' %}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="track_name" value="{{ i.name }}">
-    
-    <select name="post_categories" class="filter-selectbox">
+<div class="row justify-content-center">
+
+    <form action="{% url 'price_history' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="track_name" value="{{ i.name }}">
+        
+        <select name="dropdown" class="filter-selectbox">
 
 {% for i in items %}
 
-    <option value="{{ i.name }}"> {{ i.name }} </option>
+        <option value="{{ i.name }}"> {{ i.name }} </option>
 
 
 {% endfor %}
 
-    <input type="submit" class="btn" value="Submit" name="mybtn">
-</form>
+        <input type="submit" class="btn" value="Submit" name="mybtn">
+    </form>
+</div>
 
-<img src="graph: image/png;base64,{{ graph }}" alt="" height="250" width="250">
+<div class="row justify-content-center">
 
-{% endblock %}
+    <img src="data: image/png;base64, {{ graphic }}" alt="">
+
+</div>
+    {% endblock %}

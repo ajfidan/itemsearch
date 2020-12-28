@@ -66,27 +66,39 @@ def track_item(request):
     return render(request, 'track.html', context)
 
 def price_history(request):
-    item_obj = Item.objects.filter(isTracked=True)
-    q = item_obj.values('name', 'created')
-    df = pd.DataFrame.from_records(q)
-
-    print(df.head())
-
-    #Create the scatter chart
-    df.plot(kind='scatter', x='created', y='name', color='red')
-    buf = io.BytesIO()
-    plt.savefig(buf, format='png')
-
-    #fig = plt.gcf()
     
-    #fig.savefig(buf, format='png')
-    buf.seek(0)
-    string = base64.b64encode(buf.read())
-    uri = urllib.parse.quote(string)
+    item_obj = Item.objects.filter(isTracked=True).distinct()
+
+    graphic = ""
+    dropdown = ""
+
+    if request.method == "POST":
+        dropdown = request.POST["dropdown"].strip()
+        print(dropdown)
+
+        selected_obj = Item.objects.filter(name__icontains=dropdown)
+        q = selected_obj.values('price', 'created')
+        df = pd.DataFrame.from_records(q)
+
+        #Create the scatter chart
+        df.plot(kind='scatter', x='created', y='price', color='red')
+        plt.title(dropdown)
+        plt.ylabel('$CAD')
+        plt.xlabel('Date')
+
+        #Chart to Bytes and convert to context variable
+        buf = io.BytesIO()
+        plt.savefig(buf, bbox_inches='tight', format='png')
+        buf.seek(0)
+        image_png = buf.getvalue()
+        buf.close()
+
+        graphic = base64.b64encode(image_png)
+        graphic = graphic.decode('utf-8')
 
     context = {
         "items": item_obj,
-        "graph": uri
+        "graphic": graphic
     }
 
     return render(request, 'pricehistory.html', context)
