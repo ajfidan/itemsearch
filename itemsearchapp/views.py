@@ -72,11 +72,21 @@ def price_history(request):
 
     print(df.head())
 
+    #Create the scatter chart
     df.plot(kind='scatter', x='created', y='name', color='red')
-    plt.show()
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+
+    #fig = plt.gcf()
+    
+    #fig.savefig(buf, format='png')
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    uri = urllib.parse.quote(string)
 
     context = {
-        "items": item_obj
+        "items": item_obj,
+        "graph": uri
     }
 
     return render(request, 'pricehistory.html', context)
