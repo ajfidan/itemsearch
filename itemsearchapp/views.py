@@ -68,6 +68,7 @@ def track_item(request):
 def price_history(request):
     
     item_obj = Item.objects.filter(isTracked=True).distinct()
+    print(item_obj)
 
     graphic = ""
     dropdown = ""
@@ -81,7 +82,10 @@ def price_history(request):
         df = pd.DataFrame.from_records(q)
 
         #Create the scatter chart
-        df.plot(kind='scatter', x='created', y='price', color='red')
+        df['price_float'] = df['price'].astype(float).round(2)
+
+        print(df.dtypes)
+        df.plot(y='price_float', x='created', color='blue', linestyle='-', marker='o')
         plt.title(dropdown)
         plt.ylabel('$CAD')
         plt.xlabel('Date')
