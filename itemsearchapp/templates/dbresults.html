@@ -5,16 +5,18 @@
 <form action="/">
     <input type="submit" value="go back" />
 </form>
-<div class="row">
-{% for i in items %}
 
-        <div class="col-md-3">
+<div class="container">
+    <div class="row">
+        {% for i in items %}
+
+        <div class="col-md-4 d-flex">
             <div class="card" style="width: 20rem;">
                 <img class="card-img-top" src="{{ i.image_url }}" alt="Card image cap">
                 <div class="card-header">
                     {{ i.name }}
                 </div>
-                <div class="card-body">
+                <div class="card-body flex-fill">
                     <p class="card-text">Price: ${{ i.price }} CAD</p>
                     <p class="card-text">{{ i.created }}</p>
                     <form action="{% url 'track_item' %}" method="POST">
@@ -27,7 +29,7 @@
         </div>
 
 
-{% endfor %}
+        {% endfor %}
+    </div>
 </div>
-
 {% endblock %}
