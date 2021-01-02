@@ -2,28 +2,32 @@
 
 {% block page_content %}
 
-<div class="row justify-content-center">
+<div class="container-fluid d-flex">
+    <div class="row justify-content-center">
 
-    <form action="{% url 'price_history' %}" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="track_name" value="{{ i.name }}">
-        
-        <select name="dropdown" class="filter-selectbox">
+        <form action="{% url 'price_history' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="track_name" value="{{ i.name }}">
+            
+            <select name="dropdown" class="filter-selectbox">
 
-{% for i in items %}
+    {% for i in items %}
 
-        <option value="{{ i.name }}"> {{ i.name }} </option>
+            <option value="{{ i.name }}"> {{ i.name }} </option>
 
 
-{% endfor %}
+    {% endfor %}
 
-        <input type="submit" class="btn" value="Submit" name="mybtn">
-    </form>
+            <input type="submit" class="btn" value="Submit" name="mybtn">
+        </form>
+    </div>
+
+    <div class="row justify-content-center">
+
+        <img src="data: image/png;base64, {{ graphic }}" alt="">
+
+    </div>
+
 </div>
 
-<div class="row justify-content-center">
-
-    <img src="data: image/png;base64, {{ graphic }}" alt="">
-
-</div>
-    {% endblock %}
+{% endblock %}
