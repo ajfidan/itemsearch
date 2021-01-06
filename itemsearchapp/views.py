@@ -128,28 +128,36 @@ def getItemAmazon(searchname):
     search_bar.send_keys(Keys.RETURN)
 
     data_dict = dict()
-
+    print(type(searchname))
     soup = BeautifulSoup(driver.page_source, 'lxml')
     for div in soup.select('div[data-asin]'):
         if div.select_one('.a-text-normal') is not None:
             print("1st IF")
-            if searchname.lower() in div.select_one('.a-text-normal').text.lower():
-                print("2nd IF")
-                itemName = div.select_one('.a-text-normal').text
-                if div.select_one('.a-price') is not None:
-                    print("3rd IF")
-                    price = div.select_one('.a-price ').get_text('|',strip=True).split('|')[0]
-                    image = div.find('img')
+            listname = searchname.split()
+            name = div.select_one('.a-text-normal').text.lower()
+            for i, word in enumerate(listname):
+                if word.lower() not in name:
+                    break
+                if (i+1) == len(listname):
+                    print("2nd IF")
+                    itemName = div.select_one('.a-text-normal').text
+                    if div.select_one('.a-price') is not None:
+                        print("3rd IF")
+                        price = div.select_one('.a-price ').get_text('|',strip=True).split('|')[0]
+                        image = div.find('img')
 
-                    data_list = []
+                        data_list = []
 
-                    data_list.insert(0, convertprice(price))
-                    data_list.insert(1, image['src'])
-                    data_dict[itemName] = data_list
+                        data_list.insert(0, convertprice(price))
+                        data_list.insert(1, image['src'])
+                        data_dict[itemName] = data_list
 
-                    print(itemName)
-                    print(convertprice(price))
-                    print(image['src'])
+                        print(itemName)
+                        print(convertprice(price))
+                        print(image['src'])
+                if word.lower() in name:
+                    continue
+            
         else:
             continue
     driver.close()
