@@ -67,8 +67,7 @@ def track_item(request):
 
 def price_history(request):
     
-    item_obj = Item.objects.filter(isTracked=True).distinct()
-    print(item_obj)
+    item_obj = Item.objects.filter(isTracked=True).values('name').distinct()
 
     graphic = ""
     dropdown = ""
